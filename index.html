@@ -25,23 +25,23 @@
     </div>
     <div class="center">
         <div class="header">Login Form</div>
-        <form autocomplete="off" onsubmit="signup(event)">
+        <form autocomplete="off" onsubmit="signup()">
 
             <label for="emailid">Email</label>
             <!-- <label for="employeeid">Employee id</label> -->
-            <input type="email" id="signupemail" placeholder="Email">
+            <input type="email" id="signupemail" placeholder="xyz@gmail.com">
             <!-- <input type="email" id="signupemail" placeholder="email"> -->
 
             <label for="password">Password</label>
 
             <!-- <input type="password" id="signuppassword" placeholder="password"> -->
-            <input type="password" id="signuppassword" placeholder="Password">
+            <input type="password" id="signuppassword" placeholder="abcd@123">
             <i class="bi bi-eye-slash" id="togglePassword"></i>
 
             <!-- <button class="btn waves-effect blue" onclick="signup(event)" type="submit">signup</button> -->
-            <input type="submit"  onclick="signup(event)"  value="log in">
+            <input type="submit" id="signup" value="log in">
             <!-- <button class="btn waves-effect blue" type="submit" onsubmit="signup(event)">submit</button> -->
-            <a href="#" onclick="forgetPass()">Forget password</a>
+            <a href="#" id="forgot">Forget password</a>
         </form>
     </div>
 
@@ -58,27 +58,72 @@
         });
 
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    
+  
 
     <script type="module">
-
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBX_fE__cBxzSwVWKkBa_Vh_0uylP3Tork",
-            authDomain: "abcd-66840.firebaseapp.com",
-            projectId: "abcd-66840",
-            storageBucket: "abcd-66840.appspot.com",
-            messagingSenderId: "579751178015",
-            appId: "1:579751178015:web:75bbae34ffd0a05f91ca2a"
-        };
-        // const app = initializeApp(firebaseConfig);
-        firebase.initializeApp(firebaseConfig);
+        import {initializeApp} from 'https://www.gstatic.com/firebasejs/9.6.4/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.6.4/firebase-auth.js';
+        import {getAnalytics} from 'https://www.gstatic.com/firebasejs/9.6.4/firebase-analytics.js';
+        
+const firebaseConfig = {
+    apiKey: "AIzaSyDsC7xz3cqQ_Y1rkNVRB-vSKVURZhGWGrE",
+    authDomain: "ongc-vehicle-approval-project.firebaseapp.com",
+    projectId: "ongc-vehicle-approval-project",
+    storageBucket: "ongc-vehicle-approval-project.appspot.com",
+    messagingSenderId: "477035024822",
+    appId: "1:477035024822:web:24d182d1dc81188fef3117",
+    measurementId: "G-18JWP6G8N3"
+  };
+        
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+        const auth = getAuth()
+        
+        document.getElementById("signup").addEventListener('click',e => {
+            e.preventDefault();
+            const email = document.getElementById("signupemail").value
+            const password = document.getElementById("signuppassword").value
+            signInWithEmailAndPassword(auth, email, password)
+            .then((xy) =>{
+                const user = xy.user;
+                console.log("Logged in successfull "+ auth.currentUser);
+            })
+            .catch((e) =>{
+                const errorCode = e.code;
+                  const errorMessage = e.message;
+                  console.log(errorCode + ": " + errorMessage);
+            })
+            
+        })
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        onAuthStateChanged(auth, (u) =>{
+            if(u){
+                const x = u.uid;
+                console.log(x);
+            }
+            else{
+                console.log("no user");
+            }
+        })
+        
     </script>
-    <!-- <script src="./script/auth.js"></script> -->
-    <script src="project_7_1.js"></script>
-    <!-- <script src="./ongc/project_7_2.js"></script> -->
+        
+    
     
 </body>
 
